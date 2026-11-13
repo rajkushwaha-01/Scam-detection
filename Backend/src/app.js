@@ -8,6 +8,7 @@ import cookieParser from "cookie-parser";
 
 import authRoutes from "./routes/auth.route.js";
 import analyzeRoutes from "./routes/analyze.routes.js";
+import caseFileRoutes from "./routes/caseFile.routes.js";   
 
 const app = express();
 
@@ -46,7 +47,7 @@ app.get("/api/health", (req, res) => {
 
 app.use("/api/auth", authRoutes);
 app.use("/api/analyze", analyzeRoutes);
-
+app.use("/api/casefile", caseFileRoutes);
 // 404
 app.use((req, res) => {
   res.status(404).json({ success: false, error: "Route not found" });
