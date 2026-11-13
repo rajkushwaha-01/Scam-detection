@@ -1,7 +1,7 @@
 {
-  "name": "scham-detection-backend",
+  "name": "scam-detection-backend",
   "version": "1.0.0",
-  "description": "ScamShield Turant - backend API (Express + MongoDB + Gemini)",
+  "description": "Backend for Scam Detection",
   "main": "server.js",
   "type": "module",
   "scripts": {
@@ -19,6 +19,7 @@
     "express": "^4.19.2",
     "express-rate-limit": "^7.4.0",
     "helmet": "^7.1.0",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.5.0",
     "morgan": "^1.10.0",
     "multer": "^2.0.0"
