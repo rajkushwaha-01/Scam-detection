@@ -51,18 +51,14 @@ const responseSchema = {
   ],
 };
 
-// text = message from user, file = screenshot from multer (optional)
-export const analyzeIncident = async (text, file) => {
-  const parts = [];
-
-  if (file) {
-    parts.push({
-      inlineData: { mimeType: file.mimetype, data: file.buffer.toString("base64") },
-    });
-  }
+// text = message from user, files = screenshot/audio uploads from multer
+export const analyzeIncident = async (text, files = []) => {
+  const parts = files.map((file) => ({
+    inlineData: { mimeType: file.mimetype, data: file.buffer.toString("base64") },
+  }));
 
   parts.push({
-    text: `<user_content>\n${text || "(analyse the screenshot)"}\n</user_content>`,
+    text: `<user_content>\n${text || "(analyze the provided audio or screenshot)"}\n</user_content>`,
   });
 
   const response = await ai.models.generateContent({

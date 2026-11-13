@@ -4,12 +4,19 @@ import { analyze } from "../controller/analyze.controller.js";
 
 const router = express.Router();
 
-// keep the screenshot in memory (max 5 MB)
+// Keep one screenshot and one audio file in memory (max 5 MB each).
 const upload = multer({
   storage: multer.memoryStorage(),
-  limits: { fileSize: 5 * 1024 * 1024 },
+  limits: { fileSize: 5 * 1024 * 1024, files: 2 },
 });
 
-router.post("/", upload.single("screenshot"), analyze);
+router.post(
+  "/",
+  upload.fields([
+    { name: "screenshot", maxCount: 1 },
+    { name: "audio", maxCount: 1 },
+  ]),
+  analyze
+);
 
 export default router;

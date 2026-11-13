@@ -58,7 +58,12 @@ app.use((err, req, res, next) => {
 
   if (err.code === "LIMIT_FILE_SIZE") {
     status = 413;
-    message = "Screenshot too large (max 5 MB).";
+    message = "Uploaded file too large (max 5 MB).";
+  }
+
+  if (err.code === "LIMIT_FILE_COUNT" || err.code === "LIMIT_UNEXPECTED_FILE") {
+    status = 400;
+    message = "Upload at most one screenshot and one audio file.";
   }
 
   if (status >= 500) console.error("Server error:", err);

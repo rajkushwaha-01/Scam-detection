@@ -1,22 +1,39 @@
 import { analyzeIncident } from "../services/aiService.js";
 
-const allowedTypes = ["image/png", "image/jpeg", "image/webp"];
+const allowedImageTypes = ["image/png", "image/jpeg", "image/webp"];
+const allowedAudioTypes = [
+  "audio/mpeg",
+  "audio/mp3",
+  "audio/wav",
+  "audio/x-wav",
+  "audio/aiff",
+  "audio/aac",
+  "audio/ogg",
+  "audio/flac",
+  "audio/mp4",
+];
 
 // POST /api/analyze
 export const analyze = async (req, res) => {
   try {
     const { message } = req.body;
-    const file = req.file;
+    const screenshot = req.files?.screenshot?.[0];
+    const audio = req.files?.audio?.[0];
+    const files = [screenshot, audio].filter(Boolean);
 
-    if (!message?.trim() && !file) {
-      return res.status(400).json({ message: "Send a message or a screenshot" });
+    if (!message?.trim() && !files.length) {
+      return res.status(400).json({ message: "Send a message, screenshot, or audio file" });
     }
 
-    if (file && !allowedTypes.includes(file.mimetype)) {
-      return res.status(400).json({ message: "Only PNG, JPG or WEBP images allowed" });
+    if (screenshot && !allowedImageTypes.includes(screenshot.mimetype)) {
+      return res.status(400).json({ message: "Only PNG, JPG or WEBP screenshots are allowed" });
     }
 
-    const result = await analyzeIncident(message?.trim(), file);
+    if (audio && !allowedAudioTypes.includes(audio.mimetype)) {
+      return res.status(400).json({ message: "Unsupported audio format" });
+    }
+
+    const result = await analyzeIncident(message?.trim(), files);
     res.json(result);
   } catch (error) {
     res.status(500).json({ message: error.message });
