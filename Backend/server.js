@@ -8,7 +8,7 @@ const start = async () => {
   await connectDB();
 
   const server = app.listen(PORT, () => {
-    console.log(`ScamShield backend running on http://localhost:${PORT}`);
+    console.log(`backend running on http://localhost:${PORT}`);
   });
 
   // Graceful shutdown (Render/Railway send SIGTERM on redeploy)

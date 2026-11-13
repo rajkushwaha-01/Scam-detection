@@ -5,6 +5,18 @@ const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "7d" });
 };
 
+const setAuthCookie = (res, userId) => {
+  const isProduction = process.env.NODE_ENV === "production";
+
+  res.cookie("token", generateToken(userId), {
+    httpOnly: true,
+    secure: isProduction,
+    sameSite: isProduction ? "none" : "lax",
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+    path: "/",
+  });
+};
+
 // POST /api/auth/register
 export const register = async (req, res) => {
   try {
@@ -20,12 +32,12 @@ export const register = async (req, res) => {
     }
 
     const user = await User.create({ name, email, password });
+    setAuthCookie(res, user._id);
 
     res.status(201).json({
       _id: user._id,
       name: user.name,
       email: user.email,
-      token: generateToken(user._id),
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -40,11 +52,12 @@ export const login = async (req, res) => {
     const user = await User.findOne({ email }).select("+password");
 
     if (user && (await user.comparePassword(password))) {
+      setAuthCookie(res, user._id);
+
       res.json({
         _id: user._id,
         name: user.name,
         email: user.email,
-        token: generateToken(user._id),
       });
     } else {
       res.status(401).json({ message: "Invalid email or password" });

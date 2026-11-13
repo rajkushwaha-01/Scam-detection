@@ -3,9 +3,11 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 import rateLimit from "express-rate-limit";
+import cookieParser from "cookie-parser";
 
 
 import authRoutes from "./routes/auth.route.js";
+import analyzeRoutes from "./routes/analyze.routes.js";
 
 const app = express();
 
@@ -16,8 +18,14 @@ const allowedOrigins = (process.env.CLIENT_ORIGIN || "")
   .filter(Boolean);
 
 app.use(helmet());
-app.use(cors({ origin: allowedOrigins.length ? allowedOrigins : true }));
+app.use(
+  cors({
+    origin: allowedOrigins.length ? allowedOrigins : false,
+    credentials: true,
+  })
+);
 app.use(express.json({ limit: "1mb" }));
+app.use(cookieParser());
 app.use(morgan("dev")); 
 
 
@@ -36,14 +44,13 @@ app.get("/api/health", (req, res) => {
   res.json({ success: true, status: "ok", time: new Date().toISOString() });
 });
 
+app.use("/api/auth", authRoutes);
+app.use("/api/analyze", analyzeRoutes);
 
 // 404
 app.use((req, res) => {
   res.status(404).json({ success: false, error: "Route not found" });
 });
-
-app.use("/api/auth", authRoutes);
-
 
 app.use((err, req, res, next) => {
   let status = err.status || 500;
