@@ -23,6 +23,7 @@ const responseSchema = {
     },
     incident_stage: { type: Type.STRING, enum: ["ATTEMPT_ONLY", "MONEY_LOST", "UNKNOWN"] },
     red_flags: { type: Type.ARRAY, items: { type: Type.STRING } },
+    red_flags_hi: { type: Type.ARRAY, items: { type: Type.STRING } },
     extracted: {
       type: Type.OBJECT,
       properties: {
@@ -43,11 +44,12 @@ const responseSchema = {
     explanation_hi: { type: Type.STRING },
     explanation_en: { type: Type.STRING },
     immediate_steps: { type: Type.ARRAY, items: { type: Type.STRING } },
+    immediate_steps_hi: { type: Type.ARRAY, items: { type: Type.STRING } },
   },
   required: [
     "verdict", "risk_score", "confidence", "scam_type", "incident_stage",
-    "red_flags", "extracted", "needs_verification",
-    "explanation_hi", "explanation_en", "immediate_steps",
+    "red_flags", "red_flags_hi", "extracted", "needs_verification",
+    "explanation_hi", "explanation_en", "immediate_steps", "immediate_steps_hi",
   ],
 };
 
