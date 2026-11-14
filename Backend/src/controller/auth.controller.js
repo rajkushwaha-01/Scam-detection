@@ -71,3 +71,16 @@ export const login = async (req, res) => {
 export const getMe = async (req, res) => {
   res.json(req.user);
 };
+
+// POST /api/auth/logout
+export const logout = async (req, res) => {
+  const isProduction = process.env.NODE_ENV === "production";
+  res.cookie("token", "", {
+    httpOnly: true,
+    secure: isProduction,
+    sameSite: isProduction ? "none" : "lax",
+    expires: new Date(0),
+    path: "/",
+  });
+  res.json({ message: "Logged out successfully" });
+};

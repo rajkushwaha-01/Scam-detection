@@ -4,12 +4,12 @@ import LandingPage from './components/LandingPage';
 import DetectPage from './components/DetectPage';
 import HistoryPage from './components/HistoryPage';
 import AuthModal from './components/AuthModal';
-import { fetchCurrentUser } from './services/api';
+import { fetchCurrentUser, logoutUser } from './services/api';
 
 const HISTORY_STORAGE_KEY = 'scamshield_detection_history';
 
 export default function App() {
-  const [activePage, setActivePage] = useState('detect'); // 'detect' | 'history' | 'landing'
+  const [activePage, setActivePage] = useState('landing'); // Defaults to 'landing' when opened without login
   const [user, setUser] = useState(null);
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [initialScenarioId, setInitialScenarioId] = useState(null);
@@ -24,10 +24,15 @@ export default function App() {
     }
   });
 
-  // Check auth session on startup
+  // Check auth session on startup: if logged in go to detect, otherwise stay on landing
   useEffect(() => {
     fetchCurrentUser().then((userData) => {
-      if (userData) setUser(userData);
+      if (userData) {
+        setUser(userData);
+        setActivePage('detect');
+      } else {
+        setActivePage('landing');
+      }
     });
   }, []);
 
@@ -53,10 +58,10 @@ export default function App() {
     }
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await logoutUser();
     setUser(null);
-    // Remove cookie by setting past expiration
-    document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    setActivePage('landing');
   };
 
   const handleLoadScenarioFromLanding = (scenarioId) => {
@@ -111,6 +116,7 @@ export default function App() {
         onClose={() => setAuthModalOpen(false)}
         onAuthSuccess={(authedUser) => {
           setUser(authedUser);
+          setActivePage('detect');
         }}
       />
     </div>

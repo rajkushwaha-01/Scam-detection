@@ -106,6 +106,20 @@ export async function loginUser({ email, password }) {
 }
 
 /**
+ * Logs out the current user by clearing the auth cookie on the server.
+ */
+export async function logoutUser() {
+  try {
+    await fetch(`${API_BASE}/auth/logout`, {
+      method: 'POST',
+      credentials: 'include',
+    });
+  } catch (err) {
+    console.warn('Logout request failed:', err);
+  }
+}
+
+/**
  * Fetches current authenticated user profile.
  */
 export async function fetchCurrentUser() {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, AlertTriangle, ShieldCheck, CheckCircle2, FileText } from 'lucide-react';
+import { ArrowRight, AlertTriangle, ShieldCheck, Lock } from 'lucide-react';
 
 export default function LandingPage({ onStartDetection, onLoadScenario }) {
   return (
@@ -34,58 +34,134 @@ export default function LandingPage({ onStartDetection, onLoadScenario }) {
 
       {/* Visual Product Interface Preview */}
       <section className="max-w-3xl mx-auto px-4 sm:px-6 pb-16">
-        <div className="border border-[#EAEAEA] rounded-lg bg-[#FFFFFF] overflow-hidden shadow-card">
+        <div className="border border-[#EAEAEA] rounded-xl bg-[#FFFFFF] shadow-[0_4px_24px_rgba(0,0,0,0.06)] overflow-hidden">
           {/* Mock Window Bar */}
-          <div className="bg-[#F7F7F7] border-b border-[#EAEAEA] px-4 py-2.5 flex items-center justify-between text-[12px] text-[#737373]">
+          <div className="bg-[#FBFBFA] border-b border-[#EAEAEA] px-4 py-2.5 flex items-center justify-between text-[12px]">
             <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#EAEAEA] border border-[#D4D4D4]"></span>
-              <span className="font-medium text-[#191919]">scamshield.app</span>
-              <span>/</span>
-              <span>analysis</span>
+              {/* Subtle 3 dots */}
+              <div className="flex items-center gap-1.5 mr-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#E5E5E5] border border-[#D4D4D4]"></span>
+                <span className="w-2.5 h-2.5 rounded-full bg-[#E5E5E5] border border-[#D4D4D4]"></span>
+                <span className="w-2.5 h-2.5 rounded-full bg-[#E5E5E5] border border-[#D4D4D4]"></span>
+              </div>
+              {/* URL address pill */}
+              <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded bg-[#FFFFFF] border border-[#EAEAEA] text-[11px] text-[#737373] shadow-subtle">
+                <Lock className="w-3 h-3 text-[#2383E2]" />
+                <span className="text-[#191919] font-medium">scamshield.app</span>
+                <span className="text-[#D4D4D4]">/</span>
+                <span>inspect</span>
+                <span className="text-[#D4D4D4]">/</span>
+                <span className="text-[#737373]">sbi-pan-phish</span>
+              </div>
             </div>
-            <span className="text-[11px] font-mono">read-only preview</span>
+
+            
           </div>
 
           {/* Preview Content */}
-          <div className="p-5 sm:p-6 space-y-4">
-            {/* Sample Message Block */}
-            <div className="p-3.5 bg-[#F7F7F7] rounded border border-[#EAEAEA] text-[13px] text-[#191919] font-mono leading-relaxed">
-              "URGENT: Your SBI account access will be terminated in 2 hours due to pending KYC verification. Click bit.ly/sbi-kyc-verify to avoid permanent debit lock."
+          <div className="p-5 sm:p-7 space-y-5">
+            {/* Document Header & Metadata */}
+            <div className="flex items-start justify-between gap-4 pb-1">
+              <div>
+                <div className="flex items-center gap-2 text-[12px] text-[#737373] mb-1 flex-wrap">
+                  <span className="px-1.5 py-0.5 rounded bg-[#F7F7F7] border border-[#EAEAEA] font-mono text-[11px] text-[#191919]">
+                    INSPECTION #4829
+                  </span>
+                  <span>•</span>
+                  <span>Channel: SMS Gateway</span>
+                  <span>•</span>
+                  <span>Target: State Bank of India</span>
+                </div>
+                <h3 className="text-base sm:text-lg font-semibold text-[#191919] tracking-tight">
+                  Suspicious Banking Alert: Urgent KYC Account Block
+                </h3>
+              </div>
             </div>
 
-            {/* Analysis Result Preview */}
-            <div className="p-4 rounded border border-status-scamBorder bg-status-scamBg">
-              <div className="flex items-center justify-between gap-2 mb-3">
-                <div className="flex items-center gap-2">
-                  <AlertTriangle className="w-4 h-4 text-status-scamText" />
-                  <span className="text-[13px] font-semibold text-status-scamText">
+            {/* Sample Message Block */}
+            <div className="rounded-lg border border-[#EAEAEA] bg-[#FBFBFA] p-3.5 sm:p-4 text-[13px]">
+              <div className="flex items-center justify-between text-[11px] text-[#737373] font-medium mb-1.5">
+                <span className="uppercase tracking-wider">Raw Message Payload</span>
+                <span className="font-mono">146 characters</span>
+              </div>
+              <p className="font-mono text-[13px] text-[#191919] bg-[#FFFFFF] p-3 rounded border border-[#EAEAEA] leading-relaxed select-all">
+                "URGENT: Your SBI account access will be terminated in 2 hours due to pending KYC verification. Click bit.ly/sbi-kyc-verify to avoid permanent debit lock."
+              </p>
+            </div>
+
+            {/* Analysis Result Preview Card */}
+            <div className="rounded-lg border border-[#FEE2E2] bg-[#FEF2F2]/60 p-4 sm:p-5 space-y-4">
+              {/* Verdict & Score Row */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#FEE2E2]">
+                <div className="flex items-center gap-2.5">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#991B1B] text-white text-[11px] font-semibold tracking-wide">
+                    <AlertTriangle className="w-3.5 h-3.5" />
                     SCAM DETECTED
                   </span>
-                  <span className="text-[12px] text-[#737373] hidden sm:inline">
-                    • KYC Phishing
+                  <span className="text-[13px] font-medium text-[#991B1B]">
+                    KYC Phishing & Credential Harvest
                   </span>
                 </div>
-                <span className="text-[12px] font-semibold text-status-scamText">
-                  Risk Score: 95 / 100
-                </span>
+
+                {/* Risk Bar & Score */}
+                <div className="flex items-center gap-3">
+                  <div className="text-left sm:text-right">
+                    <div className="text-[11px] uppercase tracking-wider text-[#991B1B] font-medium">Risk Score</div>
+                    <div className="text-[14px] font-bold text-[#991B1B]">
+                      95 <span className="text-[11px] font-normal opacity-75">/ 100 (Critical)</span>
+                    </div>
+                  </div>
+                  <div className="w-20 sm:w-24 h-2 bg-[#FEE2E2] rounded-full overflow-hidden">
+                    <div className="w-[95%] h-full bg-[#991B1B] rounded-full"></div>
+                  </div>
+                </div>
               </div>
 
-              <div className="space-y-1.5 text-[13px] text-[#191919]">
-                <div className="flex items-start gap-2">
-                  <span className="text-[#991B1B] font-bold">•</span>
-                  <span><strong>Artificial Urgency:</strong> Demands action within 2 hours to provoke panic.</span>
+              {/* Red Flags List */}
+              <div>
+                <div className="text-[12px] font-semibold text-[#191919] mb-2">
+                  Identified Red Flags (3 Detected)
                 </div>
-                <div className="flex items-start gap-2">
-                  <span className="text-[#991B1B] font-bold">•</span>
-                  <span><strong>Spoofed Link:</strong> Uses a shortlink instead of an official bank domain.</span>
+                <ul className="space-y-2 text-[13px] text-[#191919]">
+                  <li className="flex items-start gap-2.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#991B1B] mt-2 shrink-0"></span>
+                    <span>
+                      <strong>Artificial Urgency (2-Hour Deadline):</strong> Fabricates immediate panic to force action before the victim can consult bank staff.
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-2.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#991B1B] mt-2 shrink-0"></span>
+                    <span>
+                      <strong>Deceptive URL Redirection:</strong> Uses an obfuscated shortlink (<code className="font-mono text-[11px] bg-[#FFFFFF] px-1 py-0.5 rounded border border-[#EAEAEA]">bit.ly/sbi-kyc-verify</code>) instead of the authentic SBI portal (<code className="font-mono text-[11px] bg-[#FFFFFF] px-1 py-0.5 rounded border border-[#EAEAEA]">sbi.co.in</code>).
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-2.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#991B1B] mt-2 shrink-0"></span>
+                    <span>
+                      <strong>Regulatory Impersonation:</strong> Legitimate banks and RBI regulations never terminate account access via SMS hyperlinks.
+                    </span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Immediate Safety Steps Callout */}
+              <div className="p-3 bg-[#FFFFFF] border border-[#FEE2E2] rounded-md flex items-start gap-2.5 text-[12px] text-[#191919]">
+                <ShieldCheck className="w-4 h-4 text-[#2383E2] shrink-0 mt-0.5" />
+                <div className="leading-relaxed">
+                  <strong>Recommended Immediate Action:</strong> Do not open the link or enter banking passwords. Block sender number and report to the National Cyber Crime Helpline (1930).
                 </div>
               </div>
 
-              <div className="mt-3 pt-3 border-t border-[#FEE2E2] text-[12px] text-[#737373] flex items-center justify-between">
-                <span>Immediate Step: Do not click the link or provide banking credentials.</span>
-                <span className="text-[#2383E2] font-medium cursor-pointer" onClick={onStartDetection}>
-                  Run your own check →
-                </span>
+              {/* Bottom Interactive CTA */}
+              <div className="pt-2 border-t border-[#FEE2E2] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-[12px]">
+                
+                <button
+                  onClick={() => onLoadScenario(4)}
+                  className="text-[#2383E2] hover:text-[#1B6EC2] font-medium flex items-center gap-1 group transition-colors"
+                >
+                  <span>Test this scenario live in Detect</span>
+                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                </button>
               </div>
             </div>
           </div>
@@ -130,7 +206,8 @@ export default function LandingPage({ onStartDetection, onLoadScenario }) {
         <div className="max-w-3xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <span className="font-semibold text-[#191919]">ScamShield</span>
-            
+            <span>—</span>
+            <span>Minimal Scam Detection Utility</span>
           </div>
           <div>
             Data is evaluated on-demand without persistent marketing tracking.
@@ -140,4 +217,5 @@ export default function LandingPage({ onStartDetection, onLoadScenario }) {
     </div>
   );
 }
+
 
