@@ -323,7 +323,7 @@ export default function DetectPage({ user, onOpenAuth, onSaveHistory, initialSce
       )}
 
       {/* Genuine Test Scenarios Presets */}
-      <div className="mt-12 pt-8 border-t border-[#EAEAEA]">
+      {/* <div className="mt-12 pt-8 border-t border-[#EAEAEA]">
         <div className="flex items-center justify-between mb-3">
           <h2 className="text-[14px] font-semibold text-[#191919]">
             Common Threat Patterns (1-Click Test)
@@ -361,7 +361,7 @@ export default function DetectPage({ user, onOpenAuth, onSaveHistory, initialSce
             </button>
           ))}
         </div>
-      </div>
+      </div> */}
 
       {/* Case File Generator Modal */}
       {showCaseFileModal && result && (
