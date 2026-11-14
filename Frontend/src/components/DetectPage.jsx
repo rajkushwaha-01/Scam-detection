@@ -48,6 +48,7 @@ export default function DetectPage({ user, onOpenAuth, onSaveHistory, initialSce
   const [error, setError] = useState(null);
   const [result, setResult] = useState(null);
   const [showCaseFileModal, setShowCaseFileModal] = useState(false);
+  const [caseFileLang, setCaseFileLang] = useState('en');
 
   const screenshotInputRef = useRef(null);
   const audioInputRef = useRef(null);
@@ -318,7 +319,10 @@ export default function DetectPage({ user, onOpenAuth, onSaveHistory, initialSce
       {result && (
         <ResultsView
           result={result}
-          onGenerateCaseFile={() => setShowCaseFileModal(true)}
+          onGenerateCaseFile={(l) => {
+            setCaseFileLang(l || 'en');
+            setShowCaseFileModal(true);
+          }}
         />
       )}
 
@@ -368,6 +372,7 @@ export default function DetectPage({ user, onOpenAuth, onSaveHistory, initialSce
         <CaseFileModal
           analysis={result}
           user={user}
+          initialLanguage={caseFileLang}
           onClose={() => setShowCaseFileModal(false)}
         />
       )}

@@ -19,12 +19,15 @@ const responseSchema = {
   type: Type.OBJECT,
   properties: {
     call_script_1930: stringList,
+    call_script_1930_hi: stringList,
     complaint_text: { type: Type.STRING },
     complaint_text_hi: { type: Type.STRING },
     bank_email: email,
     bank_email_hi: email,
     evidence_checklist: stringList,
+    evidence_checklist_hi: stringList,
     next_steps: stringList,
+    next_steps_hi: stringList,
     missing_info: stringList,
   },
   required: [

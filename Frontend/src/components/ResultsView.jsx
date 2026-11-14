@@ -319,101 +319,93 @@ ${immediate_steps.map((step, i) => `${i + 1}. ${step}`).join('\n')}
       extracted.incident_time_text);
 
   return (
-    <div className="mt-8 space-y-6">
-      {/* Top Banner: Classification, Score, and Global Language Switcher */}
+    <div className="mt-8 space-y-5">
+      {/* Top Header Bar: Section Title & Global Language Switcher */}
+      <div className="flex items-center justify-between">
+        <span className="text-[13px] font-medium text-[#737373]">
+          {lang === 'hi' ? 'विश्लेषण परिणाम' : 'Detection Analysis'}
+        </span>
+        <div className="flex items-center gap-1 bg-[#F7F7F7] p-1 rounded border border-[#EAEAEA] text-[12px]">
+          <Globe className="w-3.5 h-3.5 text-[#737373] ml-1" />
+          <button
+            type="button"
+            onClick={() => setLang('en')}
+            className={`px-2.5 py-0.5 rounded transition-colors ${
+              lang === 'en'
+                ? 'bg-[#FFFFFF] text-[#191919] font-medium shadow-subtle'
+                : 'text-[#737373] hover:text-[#191919]'
+            }`}
+          >
+            English
+          </button>
+          <button
+            type="button"
+            onClick={() => setLang('hi')}
+            className={`px-2.5 py-0.5 rounded transition-colors ${
+              lang === 'hi'
+                ? 'bg-[#FFFFFF] text-[#191919] font-medium shadow-subtle'
+                : 'text-[#737373] hover:text-[#191919]'
+            }`}
+          >
+            हिन्दी
+          </button>
+        </div>
+      </div>
+
+      {/* Top Banner: Classification and Score */}
       <div className={`p-5 rounded-lg border ${verdictStyles.container} shadow-subtle`}>
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex items-start sm:items-center gap-3">
-            <VerdictIcon className="w-6 h-6 shrink-0 mt-0.5 sm:mt-0" />
-            <div>
-              <div className="flex items-center gap-2 flex-wrap">
-                <span className="text-base font-semibold tracking-tight">
-                  {verdictStyles.label}
-                </span>
-                {scam_type && scam_type !== 'NONE' && (
-                  <span className="text-[12px] opacity-85">
-                    • {scamPatternLabel}
-                  </span>
-                )}
+          {/* Left: Icon, Verdict, Pattern, Stage */}
+          <div className="flex items-start gap-3.5 min-w-0">
+            <VerdictIcon className="w-6 h-6 shrink-0 mt-0.5" />
+            <div className="min-w-0">
+              <div className="text-base font-semibold tracking-tight">
+                {verdictStyles.label}
               </div>
+              {scam_type && scam_type !== 'NONE' && (
+                <div className="text-[13px] opacity-90 mt-0.5 font-medium">
+                  {scamPatternLabel}
+                </div>
+              )}
               {incident_stage && (
-                <div className="text-[12px] opacity-80 mt-0.5">
+                <div className="text-[12px] opacity-75 mt-1">
                   {t.incidentStage}: <span className="font-medium">{incidentStageLabel}</span>
                 </div>
               )}
             </div>
           </div>
 
-          <div className="flex items-center gap-4 sm:gap-6 border-t sm:border-t-0 pt-3 sm:pt-0 border-current/20 justify-between sm:justify-end">
+          {/* Right: Scores with guaranteed whitespace and no wrapping */}
+          <div className="flex items-center gap-6 border-t sm:border-t-0 pt-3 sm:pt-0 border-current/20 shrink-0 self-start sm:self-center">
             {typeof risk_score === 'number' && (
               <div className="text-left sm:text-right">
-                <div className="text-[11px] uppercase tracking-wider opacity-75 font-medium">{t.riskScore}</div>
-                <div className="text-xl font-bold">{risk_score} <span className="text-xs font-normal opacity-75">/ 100</span></div>
+                <div className="text-[11px] uppercase tracking-wider opacity-75 font-medium whitespace-nowrap">
+                  {t.riskScore}
+                </div>
+                <div className="text-xl font-bold whitespace-nowrap mt-0.5">
+                  {risk_score} <span className="text-xs font-normal opacity-75">/ 100</span>
+                </div>
               </div>
             )}
             {typeof confidence === 'number' && (
               <div className="text-left sm:text-right">
-                <div className="text-[11px] uppercase tracking-wider opacity-75 font-medium">{t.confidence}</div>
-                <div className="text-xl font-bold">{Math.round(confidence * 100)}%</div>
+                <div className="text-[11px] uppercase tracking-wider opacity-75 font-medium whitespace-nowrap">
+                  {t.confidence}
+                </div>
+                <div className="text-xl font-bold whitespace-nowrap mt-0.5">
+                  {Math.round(confidence * 100)}%
+                </div>
               </div>
             )}
-
-            {/* Language Switcher pill in Top Banner */}
-            <div className="flex items-center gap-1 bg-white/70 backdrop-blur-sm p-1 rounded border border-current/20 text-[12px]">
-              <Globe className="w-3.5 h-3.5 text-current opacity-70 ml-1 hidden sm:inline-block" />
-              <button
-                onClick={() => setLang('en')}
-                className={`px-2 py-0.5 rounded transition-colors ${
-                  lang === 'en'
-                    ? 'bg-[#191919] text-white font-medium shadow-subtle'
-                    : 'opacity-70 hover:opacity-100 font-normal'
-                }`}
-                title="Switch to English"
-              >
-                English
-              </button>
-              <button
-                onClick={() => setLang('hi')}
-                className={`px-2 py-0.5 rounded transition-colors ${
-                  lang === 'hi'
-                    ? 'bg-[#191919] text-white font-medium shadow-subtle'
-                    : 'opacity-70 hover:opacity-100 font-normal'
-                }`}
-                title="हिन्दी में देखें"
-              >
-                हिन्दी
-              </button>
-            </div>
           </div>
         </div>
       </div>
 
       {/* Explanation Section */}
       <div className="p-5 bg-[#FFFFFF] border border-[#EAEAEA] rounded-lg">
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="text-[14px] font-semibold text-[#191919]">
-            {t.analysisExplanation}
-          </h3>
-          <div className="flex items-center gap-1 bg-[#F7F7F7] p-0.5 rounded border border-[#EAEAEA] text-[12px]">
-            <button
-              onClick={() => setLang('en')}
-              className={`px-2.5 py-1 rounded transition-colors ${
-                lang === 'en' ? 'bg-[#FFFFFF] text-[#191919] font-medium shadow-subtle' : 'text-[#737373] hover:text-[#191919]'
-              }`}
-            >
-              English
-            </button>
-            <button
-              onClick={() => setLang('hi')}
-              className={`px-2.5 py-1 rounded transition-colors ${
-                lang === 'hi' ? 'bg-[#FFFFFF] text-[#191919] font-medium shadow-subtle' : 'text-[#737373] hover:text-[#191919]'
-              }`}
-            >
-              हिन्दी
-            </button>
-          </div>
-        </div>
-
+        <h3 className="text-[14px] font-semibold text-[#191919] mb-3">
+          {t.analysisExplanation}
+        </h3>
         <p className="text-[14px] text-[#191919] leading-relaxed whitespace-pre-line">
           {lang === 'hi'
             ? explanation_hi || explanation_en || 'कोई विवरण उपलब्ध नहीं है।'
@@ -518,7 +510,7 @@ ${immediate_steps.map((step, i) => `${i + 1}. ${step}`).join('\n')}
               </p>
             </div>
             <button
-              onClick={onGenerateCaseFile}
+              onClick={() => onGenerateCaseFile && onGenerateCaseFile(lang)}
               className="px-4 py-2 bg-[#2383E2] hover:bg-[#1B6EC2] text-white text-[13px] font-medium rounded transition-colors whitespace-nowrap self-start sm:self-center"
             >
               {t.generateCaseFileBtn}
