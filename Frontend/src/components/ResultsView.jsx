@@ -185,7 +185,7 @@ function translateImmediateStepToHi(text) {
   return text;
 }
 
-export default function ResultsView({ result, onGenerateCaseFile }) {
+export default function ResultsView({ result, onGenerateCaseFile, showCaseFileCallout = true }) {
   const [lang, setLang] = useState('en'); // 'en' or 'hi'
   const [copied, setCopied] = useState(false);
 
@@ -494,8 +494,8 @@ ${immediate_steps.map((step, i) => `${i + 1}. ${step}`).join('\n')}
         </div>
       )}
 
-      {/* Case File Generator Callout if Money Was Lost */}
-      {incident_stage === 'MONEY_LOST' && (
+      {/* Case File Generator Callout if Money Was Lost (Active Detect Mode) */}
+      {showCaseFileCallout && incident_stage === 'MONEY_LOST' && (
         <div className="p-5 bg-[#FFFFFF] border-2 border-[#2383E2] rounded-lg">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
@@ -515,6 +515,21 @@ ${immediate_steps.map((step, i) => `${i + 1}. ${step}`).join('\n')}
             >
               {t.generateCaseFileBtn}
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* Subtle Status Only in History Mode if Needed */}
+      {!showCaseFileCallout && incident_stage === 'MONEY_LOST' && (
+        <div className="px-3.5 py-2.5 rounded bg-[#F7F7F7] border border-[#EAEAEA] text-[12px] text-[#191919] flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <FileText className="w-4 h-4 text-[#2383E2] shrink-0" />
+            <span>
+              {lang === 'hi' ? 'केस फाइल स्थिति:' : 'Case File Status:'}{' '}
+              <span className="font-medium text-[#2383E2]">
+                {lang === 'hi' ? 'पात्र / आवश्यक (पैसे कट चुके हैं)' : 'Eligible (Financial loss occurred)'}
+              </span>
+            </span>
           </div>
         </div>
       )}

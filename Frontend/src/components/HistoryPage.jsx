@@ -103,13 +103,18 @@ export default function HistoryPage({ history = [], onClearHistory, onSelectScan
                   className="p-4 hover:bg-[#F7F7F7]/60 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-3"
                 >
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1.5">
+                    <div className="flex items-center gap-2 mb-1.5 flex-wrap">
                       <span className={`px-2 py-0.5 rounded text-[11px] font-semibold border ${badgeColor}`}>
                         {verdict}
                       </span>
                       {item.result?.risk_score != null && (
                         <span className="text-[12px] font-medium text-[#191919]">
                           Risk: {item.result.risk_score}/100
+                        </span>
+                      )}
+                      {item.result?.incident_stage === 'MONEY_LOST' && (
+                        <span className="px-1.5 py-0.5 rounded text-[10px] font-medium bg-[#EBF3FC] text-[#2383E2] border border-[#2383E2]/30">
+                          Case File Eligible
                         </span>
                       )}
                       <span className="text-[11px] text-[#737373]">
@@ -168,7 +173,7 @@ export default function HistoryPage({ history = [], onClearHistory, onSelectScan
               </div>
             )}
 
-            <ResultsView result={selectedScan.result} />
+            <ResultsView result={selectedScan.result} showCaseFileCallout={false} />
 
             <div className="mt-6 pt-4 border-t border-[#EAEAEA] flex justify-end">
               <button
