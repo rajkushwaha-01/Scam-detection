@@ -11,7 +11,7 @@ const setAuthCookie = (res, userId) => {
   res.cookie("token", generateToken(userId), {
     httpOnly: true,
     secure: isProduction,
-    sameSite: isProduction ? "none" : "lax",
+    sameSite: "lax",
     maxAge: 7 * 24 * 60 * 60 * 1000,
     path: "/",
   });
@@ -78,7 +78,7 @@ export const logout = async (req, res) => {
   res.cookie("token", "", {
     httpOnly: true,
     secure: isProduction,
-    sameSite: isProduction ? "none" : "lax",
+    sameSite: "lax",
     expires: new Date(0),
     path: "/",
   });

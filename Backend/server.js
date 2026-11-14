@@ -7,8 +7,8 @@ const PORT = process.env.PORT || 3000;
 const start = async () => {
   await connectDB();
 
-  const server = app.listen(PORT, () => {
-    console.log(`backend running on http://localhost:${PORT}`);
+  const server = app.listen(PORT, "0.0.0.0", () => {
+    console.log(`Backend server running on port ${PORT}`);
   });
 
   // Graceful shutdown (Render/Railway send SIGTERM on redeploy)
