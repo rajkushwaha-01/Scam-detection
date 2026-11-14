@@ -1,4 +1,4 @@
-# ScamShield — Minimal Scam Detection Web Application
+# ScamShield — Scam Detection Web Application
 
 A lightweight, distraction-free web application inspired by minimal workspace design principles for analyzing suspicious text messages, screenshots, and audio recordings to detect fraud patterns.
 
@@ -23,7 +23,7 @@ Built with an original SaaS interface prioritizing whitespace, typography (Inter
 
 ### Frontend (`/Frontend`)
 - **Framework:** React 18 + Vite
-- **Styling:** Tailwind CSS (customized with exact Notion-inspired color tokens and minimal border radius)
+- **Styling:** Tailwind CSS 
 - **Icons:** Lucide React
 - **Pages & Components:**
   - `Navbar.jsx`: Single horizontal navbar with brand logo, minimal center navigation (`Detect`, `History`, `Overview`), and right auth/scan controls. Responsive mobile dropdown without introducing a sidebar.
